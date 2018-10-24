@@ -19,6 +19,9 @@ CREATE TABLE tbl_Publisher (
   PRIMARY KEY (PublisherName)
 );
 
+ALTER TABLE  tbl_Publisher -- Changed datatype to avoid error converting in to int while populating the table.
+	ALTER COLUMN Phone VARCHAR(15) NOT NULL
+
 CREATE TABLE tbl_Books (
   BookID INT NOT NULL,
   Title VARCHAR(85),
@@ -38,7 +41,7 @@ CREATE TABLE tbl_Borrowers (
   Phone INT,
   PRIMARY KEY (CardNo)
  );
- ALTER TABLE  tbl_Borrowers -- Changed datatype to avoid  error converting in to int while populating the table.
+ ALTER TABLE  tbl_Borrowers -- Changed datatype to avoid error converting into int while populating the table.
 	ALTER COLUMN Phone VARCHAR(15) NOT NULL
 
 CREATE TABLE tbl_BookCopies (
@@ -72,23 +75,30 @@ INSERT INTO tbl_LibraryBranch
 	('3000', 'Rockwood', '100 NW 10th Ave, Rockwood, OR'),
 	('4000', 'Portland', '300 NE 10th Ave,  Portland, OR')
 
--- 20 books / 2 written by 'Stephen King'
+-- Updating a library branch name
+UPDATE tbl_LibraryBranch SET BranchName = 'Central' WHERE BranchID ='4000';	
+
+-- min 20 books / 2 written by 'Stephen King'
 INSERT INTO tbl_Books
 	(BookID, Title, PublisherName)
 	VALUES
 	('01', 'The Dead Zone', 'Stephen King Publishing'),
 	('02', 'Pet Sematary', 'Stephen King Publishing'),
+	
     ('03', 'The President is Missing', 'Hachette Book Group'),
 	('04', 'Against Medical Advice', 'Hachette Book Group'),
 	('05', 'The Murder of King Tut', 'Hachette Book Group'),
+	
     ('06', 'The Alice Network', 'HarperCollins Publishers'),
 	('07', 'Wait, What?', 'HarperCollins Publishers'),
 	('08', 'Letterman', 'HarperCollins Publishers'),
+	
     ('09', 'The Rainmaker', 'Doubleday Publishing Group'),
 	('10', 'The Broker', 'Doubleday Publishing Group'),
 	('11', 'The Litigators', 'Doubleday Publishing Group'),
 	('12', 'A Time to Kill', 'Doubleday Publishing Group'),
 	('13', 'The Street Lawyer', 'Doubleday Publishing Group'),
+	
     ('14', 'Harry Potter and The Philosopher-s Stone', 'Bloomsbury Publishing'),
 	('15', 'Harry Potter and The Chamber of Secrets', 'Bloomsbury Publishing'),
 	('16', 'Harry Potter and The Prisoner of Azkaban', 'Bloomsbury Publishing'),
@@ -96,6 +106,11 @@ INSERT INTO tbl_Books
 	('18', 'Harry Potter and The Order of the Phoenix', 'Bloomsbury Publishing'),
 	('19', 'Harry Potter and The Half-Blood Prince ', 'Bloomsbury Publishing'),
 	('20', 'Harry Potter and The Deathly Hallows', 'Bloomsbury Publishing')
+
+-- added a book i forgot to include 
+INSERT INTO tbl_Books (BookID, Title, PublisherName) VALUES
+	('21', 'The Lost Tribe', 'Stephen King Publishing')
+
 
 -- 8 borrowers 
 INSERT INTO tbl_Borrowers
@@ -111,4 +126,164 @@ INSERT INTO tbl_Borrowers
 	('10800', 'Neil Gorsuch', '8th St SW Grant, OR', '503-008-8080')
 
 
-SELECT * FROM tbl_Borrowers order by Name
+INSERT INTO tbl_BookAuthors
+	(BookID, AuthourName)
+	VALUES
+	(01, 'Stephen King'),
+	(02, 'Stephen King'),
+	(03, 'James Patterson'),
+	(04, 'James Patterson'),	
+	(05, 'James Patterson'),
+	(06, 'Kate Quinn'),
+	(07, 'James E. Ryan'),
+	(08, 'Jason Zinoman'),
+	(09, 'John Grisham'),
+	(10, 'John Grisham'),
+	(11, 'John Grisham'),
+	(12, 'Vin Baker and Joe Layden'),
+	(13, 'Vin Baker and Joe Layden'),
+	(14, 'J. K. Rowling'),
+	(15, 'J. K. Rowling'),
+	(16, 'J. K. Rowling'),
+	(17, 'J. K. Rowling'),
+	(18, 'J. K. Rowling'),
+	(19, 'Sandra Aamodt'),
+	(20, 'Julia Hobsbawm')
+
+-- added a book's author i forgot to include 
+INSERT INTO tbl_BookAuthors (BookID, AuthourName) VALUES
+	(21, 'Mark Lee')
+
+-- 5 Publishers 
+INSERT INTO tbl_Publisher
+    (PublisherName, Address, Phone)
+	VALUES
+	('Stephen King Publishing', '21st St NE Washington, D.C.', 101-111-1011),
+	('Hachette Book Group', '22nd St NW Washington, D.C.', 202-222-2022),
+	('HarperCollins Publishers', '33rd St NE Washington, D.C.', 303-333-3033),
+	('Doubleday Publishing Group', '44th St NW Washington, D.C.', 404-444-4044),
+	('Bloomsbury Publishing', '55th St SE Washington, D.C.', 505-555-5055)
+
+--  Updated the phone column values to bypass error converting into int 
+UPDATE tbl_Publisher SET Phone = '101-111-1011' WHERE PublisherName ='Stephen King Publishing';	
+UPDATE tbl_Publisher SET Phone = '202-222-2022' WHERE PublisherName = 'Hachette Book Group';	
+UPDATE tbl_Publisher SET Phone = '303-333-3033' WHERE PublisherName ='HarperCollins Publishers';	
+UPDATE tbl_Publisher SET Phone = '404-444-4044' WHERE PublisherName ='Doubleday Publishing Group';	
+UPDATE tbl_Publisher SET Phone = '505-555-5055' WHERE PublisherName ='Bloomsbury Publishing';	
+
+-- 10 book titles (2 copies of each) for each Library Branch & Central branch have 2 books written by Stephen King.   
+    
+INSERT INTO tbl_BookCopies
+	(BookID, BranchID, Number_of_copies)
+	VALUES
+	(01, 1000, 2),
+	(02, 1000, 2),
+	(03, 1000, 2),
+	(04, 1000, 2),
+	(05, 1000, 2),
+	(06, 1000, 2),
+	(07, 1000, 2),
+	(08, 1000, 2),
+	(09, 1000, 2),
+	(10, 1000, 2),
+    
+    (11, 2000, 2),
+	(12, 2000, 2),
+	(13, 2000, 2),
+	(14, 2000, 2),
+	(15, 2000, 2),
+	(16, 2000, 2),
+	(17, 2000, 2),
+	(18, 2000, 2),
+	(19, 2000, 2),
+	(20, 2000, 2),
+    
+	(11, 3000, 2),
+	(12, 3000, 2),
+	(03, 3000, 2),
+	(04, 3000, 2),
+	(05, 3000, 2),
+	(06, 3000, 2),
+	(07, 3000, 2),
+	(08, 3000, 2),
+	(09, 3000, 2),
+	(10, 3000, 2),
+    
+	(01, 4000, 2),
+	(02, 4000, 2),
+	(13, 4000, 2),
+	(14, 4000, 2),
+	(15, 4000, 2),
+	(16, 4000, 2),
+	(17, 4000, 2),
+	(18, 4000, 2),
+	(19, 4000, 2),
+	(20, 4000, 2)
+
+-- added a book i forgot to include 
+INSERT INTO tbl_BookCopies (BookID, BranchID, Number_of_copies) VALUES
+	(21, 1000, 2),
+	(21, 2000, 2)
+
+-- min 50 loans 
+INSERT INTO tbl_BookLoans
+	(BookID, BranchID, CardNo, DateOut, DateDue)
+	VALUES
+    (01, 1000, 10010, '2018-10-25', '2018-12-01'),
+    (02, 1000, 10010, '2018-10-25', '2018-12-01'),
+	(03, 1000, 10010, '2018-10-25', '2018-12-01'),
+	(04, 1000, 10010, '2018-10-25', '2018-12-01'),
+	(05, 1000, 10010, '2018-10-25', '2018-12-01'),
+    (06, 1000, 10010, '2018-10-25', '2018-12-01'),
+    (07, 1000, 10010, '2018-10-26', '2018-12-02'),
+    (08, 1000, 10010, '2018-10-26', '2018-12-02'),
+	(09, 1000, 10010, '2018-10-26', '2018-12-02'),
+	(10, 1000, 10010, '2018-10-26', '2018-12-02'),
+    (11, 1000, 10010, '2018-10-26', '2018-12-02'),
+	(12, 1000, 10010, '2018-10-26', '2018-12-02'),
+    
+	(13, 2000, 10200, '2018-10-26', '2018-12-02'),
+    (14, 2000, 10200, '2018-10-26', '2018-12-02'),
+	(15, 2000, 10200, '2018-10-26', '2018-12-02'),
+	(16, 2000, 10200, '2018-10-26', '2018-12-02'),
+    (17, 2000, 10200, '2018-10-26', '2018-12-02'),
+	(18, 2000, 10200, '2018-10-26', '2018-12-02'),
+    (19, 2000, 10200, '2018-10-26', '2018-12-02'),
+	(20, 2000, 10200, '2018-10-26', '2018-12-02'),
+    (21, 2000, 10200, '2018-10-26', '2018-12-02'),
+	(01, 2000, 10200, '2018-10-26', '2018-12-02'),
+    
+	(02, 3000, 13000, '2018-10-27', '2018-12-03'),
+	(03, 3000, 10400, '2018-10-27', '2018-12-03'),
+	(04, 3000, 10050, '2018-10-27', '2018-12-03'),
+	(05, 3000, 10600, '2018-10-27', '2018-12-03'),
+	(06, 3000, 17000, '2018-10-27', '2018-12-03'),
+	(07, 3000, 10800, '2018-10-27', '2018-12-03'),
+    (08, 3000, 13000, '2018-10-27', '2018-12-03'),
+	(09, 3000, 10400, '2018-10-27', '2018-12-03'),
+	(10, 3000, 10050, '2018-10-27', '2018-12-03'),
+	(11, 3000, 10600, '2018-10-27', '2018-12-03'),
+
+	(12, 4000, 13000,  '2018-10-28', '2018-12-04'),
+	(13, 4000, 13000,  '2018-10-28', '2018-12-04'),
+	(14, 4000, 10400,  '2018-10-28', '2018-12-04'),
+	(15, 4000, 10400,  '2018-10-28', '2018-12-04'),
+	(16, 4000, 10050,  '2018-10-28', '2018-12-04'),
+	(17, 4000, 10050,  '2018-10-28', '2018-12-04'),
+	(18, 4000, 10600,  '2018-10-28', '2018-12-04'),
+	(19, 4000, 10600,  '2018-10-28', '2018-12-04'),
+	(20, 4000, 17000,  '2018-10-28', '2018-12-04'),
+    
+	(21, 3000, 13000,  '2018-10-29', '2018-12-05'),
+	(01, 3000, 13000,  '2018-10-29', '2018-12-05'),
+	(03, 3000, 10400,  '2018-10-29', '2018-12-05'),
+	(04, 3000, 10400,  '2018-10-29', '2018-12-05'),
+	(05, 3000, 10050,  '2018-10-29', '2018-12-05'),
+	(06, 4000, 10050,  '2018-10-29', '2018-12-05'),
+	(07, 4000, 10600,  '2018-10-29', '2018-12-05'),
+	(08, 4000, 10600,  '2018-10-29', '2018-12-05'),
+	(09, 4000, 17000,  '2018-10-29', '2018-12-05'),
+	(10, 4000, 10800,  '2018-10-29', '2018-12-05')	
+
+SELECT * FROM tbl_BookLoans order by BookID DESC
+
